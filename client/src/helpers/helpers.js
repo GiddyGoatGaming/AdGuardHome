@@ -671,6 +671,15 @@ export const setHtmlLangAttr = (language) => {
 };
 
 /**
+ * Sets UI theme.
+ *
+ * @param theme
+ */
+export const setUITheme = (theme) => {
+    console.log(`set ui theme: ${theme}`);
+};
+
+/**
  * @param values {object}
  * @returns {object}
  */

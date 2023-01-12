@@ -1,15 +1,17 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
-import { REPOSITORY, PRIVACY_POLICY_LINK } from '../../helpers/constants';
+import { REPOSITORY, PRIVACY_POLICY_LINK, THEMES } from '../../helpers/constants';
 import { LANGUAGES } from '../../helpers/twosky';
 import i18n from '../../i18n';
 
 import Version from './Version';
 import './Footer.css';
 import './Select.css';
-import { setHtmlLangAttr } from '../../helpers/helpers';
+import { setHtmlLangAttr, setUITheme } from '../../helpers/helpers';
+import { changeTheme } from '../../actions';
 
 const linksData = [
     {
@@ -29,6 +31,9 @@ const linksData = [
 
 const Footer = () => {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
+
+    const currentTheme = useSelector((state) => state.dashboard.theme);
 
     const getYear = () => {
         const today = new Date();
@@ -39,6 +44,12 @@ const Footer = () => {
         const { value } = event.target;
         i18n.changeLanguage(value);
         setHtmlLangAttr(value);
+    };
+
+    const onThemeChanged = (event) => {
+        const { value } = event.target;
+        dispatch(changeTheme(value));
+        setUITheme(value);
     };
 
     const renderCopyright = () => <div className="footer__column">
@@ -65,6 +76,20 @@ const Footer = () => {
                     <div className="footer__row">
                         <div className="footer__column footer__column--links">
                             {renderLinks(linksData)}
+                        </div>
+                        <div className="footer__column footer__column--theme">
+                            <select
+                                className="form-control select select--theme"
+                                value={currentTheme}
+                                onChange={onThemeChanged}
+                            >
+                                {Object.values(THEMES)
+                                    .map((theme) => (
+                                        <option key={theme} value={theme}>
+                                            {t(`theme_${theme}`)}
+                                        </option>
+                                    ))}
+                            </select>
                         </div>
                         <div className="footer__column footer__column--language">
                             <select

@@ -224,21 +224,21 @@ class Api {
     }
 
     // Language
-    CURRENT_LANGUAGE = { path: 'i18n/current_language', method: 'GET' };
 
-    CHANGE_LANGUAGE = { path: 'i18n/change_language', method: 'POST' };
+    async changeLanguage(config) {
+        const profile = await this.getProfile();
+        profile.language = config.language;
 
-    getCurrentLanguage() {
-        const { path, method } = this.CURRENT_LANGUAGE;
-        return this.makeRequest(path, method);
+        return this.setProfile(profile);
     }
 
-    changeLanguage(config) {
-        const { path, method } = this.CHANGE_LANGUAGE;
-        const parameters = {
-            data: config,
-        };
-        return this.makeRequest(path, method, parameters);
+    // Theme
+
+    async changeTheme(config) {
+        const profile = await this.getProfile();
+        profile.theme = config.theme;
+
+        return this.setProfile(profile);
     }
 
     // DHCP
@@ -571,9 +571,20 @@ class Api {
     // Profile
     GET_PROFILE = { path: 'profile', method: 'GET' };
 
+    UPDATE_PROFILE = { path: 'profile/update', method: 'PUT' };
+
     getProfile() {
         const { path, method } = this.GET_PROFILE;
         return this.makeRequest(path, method);
+    }
+
+    setProfile(data) {
+        const { path, method } = this.UPDATE_PROFILE;
+        const config = {
+            data,
+        };
+
+        return this.makeRequest(path, method, config);
     }
 
     // DNS config

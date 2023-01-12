@@ -1,3 +1,20 @@
+.select.select--theme {
+    height: 45px;
+    padding: 0 32px 2px 11px;
+    outline: 0;
+    border-color: rgba(69, 79, 94, 0.12);
+    background-image: url("./svg/chevron-down.svg");
+    background-repeat: no-repeat;
+    background-position: right 9px center;
+    background-size: 17px 20px;
+    appearance: none;
+    cursor: pointer;
+}
+
+.select--theme::-ms-expand {
+    opacity: 0;
+}
+
 .select.select--language {
     height: 45px;
     padding: 0 32px 2px 33px;
